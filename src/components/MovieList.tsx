@@ -6,6 +6,7 @@ import Card from '../ui/Card'
 import Search from '../ui/Search'
 
 import { Movie } from '../types/movie'
+import EmptyBlock from '../ui/EmptyBlock'
 
 const apiUrl = 'http://www.omdbapi.com/?i=tt3896198&apikey=<API_KEY>'
 
@@ -27,7 +28,10 @@ export default function MovieList() {
     <>
       <Search onSearch={(searchText) => setSearch(searchText)} />
       <div class="flex flex-wrap">
-        <Show when={search()}>
+        <Show
+          when={search()}
+          fallback={<EmptyBlock>Aucune recherche pour le moment !</EmptyBlock>}
+        >
           <For
             each={resource()}
             fallback={
