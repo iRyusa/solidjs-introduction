@@ -10,7 +10,7 @@ export default function Card(props: {
       <div class="bg-gray-100 p-6 rounded-lg relative">
         <div class="mb-6 rounded-md relative after:block after:bg-gradient-to-b after:from-indigo-500 after:to-transparent after:content-[' '] after:top-0 after:left-0 after:absolute after:w-full after:h-full after:opacity-50 after:rounded-md">
           <img
-            class="h-40 rounded-md w-full object-cover object-top "
+            class="h-80 rounded-md w-full object-cover object-top "
             src={props.img}
             alt="content"
           />

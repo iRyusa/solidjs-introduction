@@ -1,28 +1,55 @@
-import { createSignal } from 'solid-js'
+import { createStore } from 'solid-js/store'
+import { createEffect } from 'solid-js'
 import { Movie } from '../types/movie'
 
-let favortiesLocalstorage: Movie[] = []
+const FAVORITES_KEY = 'favorites'
 
-try {
-  favortiesLocalstorage = JSON.parse(localStorage['favorites'])
-} catch {}
+const loadFavorites = (): Movie[] => {
+  try {
+    const stored = localStorage.getItem(FAVORITES_KEY)
+    if (!stored) return []
 
-const [favoritesMovies, _setFavorites] = createSignal(favortiesLocalstorage)
+    const parsed = JSON.parse(stored)
 
-const setFavorites = (args: Movie[]) => {
-  localStorage['favorites'] = JSON.stringify(args)
+    if (!Array.isArray(parsed)) {
+      console.warn('Invalid favorites data in localStorage, expected array')
+      return []
+    }
 
-  _setFavorites(args)
+    return parsed.filter((item) => item && typeof item.imdbID === 'string')
+  } catch (error) {
+    console.error('Failed to load favorites from localStorage:', error)
+    return []
+  }
 }
 
-const isFavorite = (item: Movie) =>
-  !!favoritesMovies().find((m) => m.imdbID === item.imdbID)
+const saveFavorites = (movies: Movie[]): void => {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(movies))
+  } catch (error) {
+    console.error('Failed to save favorites to localStorage:', error)
+  }
+}
 
-const toggleFavorite = (item: Movie) =>
-  setFavorites(
-    isFavorite(item)
-      ? favoritesMovies().filter((m) => m.imdbID !== item.imdbID)
-      : [item, ...favoritesMovies()]
-  )
+const [favoritesMovies, setFavoritesMovies] = createStore<Movie[]>(loadFavorites())
+
+createEffect(() => {
+  saveFavorites(favoritesMovies)
+})
+
+const isFavorite = (item: Movie): boolean =>
+  !!favoritesMovies.find((m) => m.imdbID === item.imdbID)
+
+const toggleFavorite = (item: Movie): void => {
+  if (isFavorite(item)) {
+    setFavoritesMovies(favoritesMovies.filter((m) => m.imdbID !== item.imdbID))
+  } else {
+    setFavoritesMovies([item, ...favoritesMovies])
+  }
+}
+
+const setFavorites = (movies: Movie[]): void => {
+  setFavoritesMovies(movies)
+}
 
 export { favoritesMovies, setFavorites, isFavorite, toggleFavorite }

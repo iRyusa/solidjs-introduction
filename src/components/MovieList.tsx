@@ -8,7 +8,7 @@ import Search from '../ui/Search'
 import { Movie } from '../types/movie'
 import EmptyBlock from '../ui/EmptyBlock'
 
-const apiUrl = 'http://www.omdbapi.com/?i=tt3896198&apikey=<API_KEY>'
+const apiUrl = import.meta.env.BASE_URL
 
 const searchMovie = async (text: string): Promise<Movie[]> => {
   const response: { Error: string } | { Search: Movie[] } = await fetch(

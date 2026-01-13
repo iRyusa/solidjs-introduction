@@ -7,7 +7,7 @@ export default function MovieFavorites() {
   return (
     <div class="flex flex-wrap">
       <For
-        each={favoritesMovies()}
+        each={favoritesMovies}
         fallback={
           <EmptyBlock>Aucun film en favoris pour l'instant !</EmptyBlock>
         }
