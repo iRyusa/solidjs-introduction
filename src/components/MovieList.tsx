@@ -5,7 +5,7 @@ import { isFavorite, toggleFavorite } from "../stores/movies"
 import Card from "../ui/Card"
 import Search from "../ui/Search"
 
-import { Movie } from "../types/movie"
+import type { Movie } from "../types/movie"
 import EmptyBlock from "../ui/EmptyBlock"
 
 const apiUrl = import.meta.env.VITE_BASE_API

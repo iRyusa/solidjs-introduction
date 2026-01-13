@@ -14,12 +14,14 @@ export default function Card(props: {
 						src={props.img}
 						alt="content"
 					/>
-					<span
+					<button
 						class="cursor-pointer text-indigo-500 absolute right-5 top-5 text-[24px] rounded-full w-[30px] h-[30px] bg-white flex items-center justify-center z-10 hover:font-bold"
+						type="button"
 						onClick={props.setFavorite}
+						tabIndex={0}
 					>
 						{props.isFavorite ? "★" : "☆"}
-					</span>
+					</button>
 				</div>
 
 				<h2 class="uppercase text-indigo-500 font-medium title-font text-lg">

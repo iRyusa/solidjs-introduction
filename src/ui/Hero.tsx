@@ -1,4 +1,4 @@
-import { JSXElement } from "solid-js"
+import type { JSXElement } from "solid-js"
 import H1 from "./H1"
 
 export default function Hero(props: {

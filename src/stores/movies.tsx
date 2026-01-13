@@ -1,6 +1,6 @@
 import { createStore } from "solid-js/store"
 import { createEffect } from "solid-js"
-import { Movie } from "../types/movie"
+import type { Movie } from "../types/movie"
 
 const FAVORITES_KEY = "favorites"
 
