@@ -1,4 +1,4 @@
-import { createSignal, createResource, Show, For } from "solid-js"
+import { createSignal, createResource, Show, For, Suspense } from "solid-js"
 
 import { isFavorite, toggleFavorite } from "../stores/movies"
 
@@ -32,26 +32,22 @@ export default function MovieList() {
 					when={search()}
 					fallback={<EmptyBlock>Aucune recherche pour le moment !</EmptyBlock>}
 				>
-					<For
-						each={resource()}
-						fallback={
-							<div>
-								{resource.loading
-									? "Chargement..."
-									: `Aucune réponse pour "${search()}"`}
-							</div>
-						}
-					>
-						{(item) => (
-							<Card
-								title={item.Title}
-								date={item.Year}
-								img={item.Poster}
-								isFavorite={isFavorite(item)}
-								setFavorite={() => toggleFavorite(item)}
-							/>
-						)}
-					</For>
+					<Suspense fallback={<div>Chargement...</div>}>
+						<For
+							each={resource()}
+							fallback={<div>{`Aucune réponse pour "${search()}"`}</div>}
+						>
+							{(item) => (
+								<Card
+									title={item.Title}
+									date={item.Year}
+									img={item.Poster}
+									isFavorite={isFavorite(item)}
+									setFavorite={() => toggleFavorite(item)}
+								/>
+							)}
+						</For>
+					</Suspense>
 				</Show>
 			</div>
 		</>
